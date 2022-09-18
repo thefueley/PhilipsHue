@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hue-deploy
+  namespace: hue
+  labels:
+    app: hue
+spec:
+  selector:
+    matchLabels:
+      app: hue
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: hue
+    spec:
+      containers:
+      - name: hue
+        image: thefueley/PhilipsHue:1
+        resources:
+          requests:
+            memory: "64Mi"
+            cpu: "250m"
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+        ports:
+          - containerPort: 5000
+            name: hue
+      imagePullSecrets:
+        - name: regcred
+---
+kind: Service
+metadata:
+  name: hue-svc
+  namespace: hue
+  labels:
+    app: hue
+spec:
+  ports:
+    - name: http
+      port: 5000
+      targetPort: 5000
+  selector:
+    app: hue
+  type: LoadBalancer

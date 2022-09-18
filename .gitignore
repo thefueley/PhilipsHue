@@ -1,3 +1,11 @@
+.DS_Store
+*.code-workspace
+.vscode
+.dockerignore
+.env
+.key
+.api
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]

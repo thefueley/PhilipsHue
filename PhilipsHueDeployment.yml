@@ -1,3 +1,11 @@
+apiVersion: v1
+kind: Namespace 
+metadata:
+  name: hue-ns
+  namespace: hue 
+  labels:
+    app: hue
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -18,7 +26,7 @@ spec:
     spec:
       containers:
       - name: hue
-        image: thefueley/PhilipsHue:1
+        image: thefueley/philipshue:1
         resources:
           requests:
             memory: "64Mi"
@@ -29,6 +37,19 @@ spec:
         ports:
           - containerPort: 5000
             name: hue
+        env:
+          - name: HUE_API
+            valueFrom:
+              secretKeyRef:
+                name: hue-api-endpoint
+                key: HUE-API
+                optional: false
+          - name: HUE_API_KEY
+            valueFrom:
+              secretKeyRef:
+                name: hue-api-key
+                key: HUE-API-KEY
+                optional: false
       imagePullSecrets:
         - name: regcred
 ---

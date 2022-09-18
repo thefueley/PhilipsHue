@@ -51,7 +51,7 @@ spec:
                 key: HUE-API-KEY
                 optional: false
       imagePullSecrets:
-        - name: regcred
+        - name: regsecret
 ---
 apiVersion: v1
 kind: Service

@@ -1,16 +1,8 @@
-apiVersion: v1
-kind: Namespace 
-metadata:
-  name: hue-ns
-  namespace: hue 
-  labels:
-    app: hue
----
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: hue-deploy
-  namespace: hue
+  namespace: default
   labels:
     app: hue
 spec:
@@ -41,14 +33,14 @@ spec:
           - name: HUE_API
             valueFrom:
               secretKeyRef:
-                name: hue-api-endpoint
-                key: HUE-API
+                name: hue-api
+                key: HUE_API
                 optional: false
           - name: HUE_API_KEY
             valueFrom:
               secretKeyRef:
-                name: hue-api-key
-                key: HUE-API-KEY
+                name: hue-api
+                key: HUE_API_KEY
                 optional: false
       imagePullSecrets:
         - name: regcred
@@ -57,7 +49,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: hue-svc
-  namespace: hue
+  namespace: default
   labels:
     app: hue
 spec:
